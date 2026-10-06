@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";import {admin} from "../../../lib/supabase";
+export async function POST(req){const db=admin();if(!db)return NextResponse.json({error:"Database not configured"},{status:503});const payload=await req.json();const {error}=await db.from("responses").insert({payload,source:"web"});if(error)return NextResponse.json({error:error.message},{status:500});return NextResponse.json({ok:true});}
